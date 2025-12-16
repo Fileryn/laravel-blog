@@ -1,0 +1,13 @@
+[languages]
+php = ">=8.2"
+nodejs = "18"
+
+[phases.build]
+cmds = [
+    "composer install --no-dev --optimize-autoloader",
+    "npm install",
+    "npm run build"
+]
+
+[start]
+cmd = "bash start.sh"
