@@ -14,20 +14,10 @@
             <p><strong>Email :</strong> {{ Auth::user()->email }}</p>
             <p><strong>Rôle :</strong> 
                 <span class="badge" style="background: {{ Auth::user()->isAdmin() ? '#e74c3c' : (Auth::user()->isModerator() ? '#f39c12' : '#3498db') }};">
-                    {{ ucfirst(Auth::user()->role) }}
+                    {{ ucfirst(Auth::user()->role ?? 'user') }}
                 </span>
             </p>
             <p><strong>Membre depuis :</strong> {{ Auth::user()->created_at->format('d/m/Y') }}</p>
-            @if(Auth::user()->hasVerifiedEmail())
-                <p><strong>Email vérifié :</strong> ✅ Oui</p>
-            @else
-                <p><strong>Email vérifié :</strong> ❌ Non 
-                    <form action="{{ route('verification.send') }}" method="POST" style="display:inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-warning">Renvoyer l'email</button>
-                    </form>
-                </p>
-            @endif
         </div>
         <div class="mt-2">
             <a href="{{ route('profile.edit') }}" class="btn btn-sm">✏️ Modifier mon profil</a>
@@ -66,7 +56,7 @@
             $mesArticles = Auth::user()->articles()->latest()->take(5)->get();
         @endphp
         @if($mesArticles->count() > 0)
-            <ul style="list-style: none;">
+            <ul style="list-style: none; padding: 0; margin: 0;">
                 @foreach($mesArticles as $article)
                     <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
                         <a href="{{ route('articles.show', $article) }}" style="color: white; text-decoration: none;">
