@@ -47,9 +47,9 @@ class CategorieController extends Controller
     public function show(Categorie $categorie): View
     {
         $articles = $categorie->articles()
-            ->with('user')
+            ->with(['user', 'tags', 'commentaires'])
             ->latest()
-            ->get();
+            ->paginate(6);
             
         return view('categories.show', compact('categorie', 'articles'));
     }

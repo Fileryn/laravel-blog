@@ -11,10 +11,9 @@ Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/vue', function() {
     return view('vue1');
-});
+})->name('about');
 
 // ========== ARTICLES ==========
-// Routes protégées AVANT les routes avec paramètres
 Route::middleware(['auth'])->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
@@ -23,12 +22,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
 
-// Routes publiques
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
 // ========== CATÉGORIES ==========
-// Routes protégées AVANT les routes avec paramètres
 Route::middleware(['auth'])->group(function () {
     Route::get('/categories/create', [CategorieController::class, 'create'])->name('categories.create');
     Route::post('/categories', [CategorieController::class, 'store'])->name('categories.store');
@@ -37,7 +34,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy'])->name('categories.destroy');
 });
 
-// Routes publiques
 Route::get('/categories', [CategorieController::class, 'index'])->name('categories.index');
 Route::get('/categories/{categorie}', [CategorieController::class, 'show'])->name('categories.show');
 
@@ -56,6 +52,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('password.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
