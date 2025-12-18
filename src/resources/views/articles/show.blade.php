@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $article->titre . ' - Laravel')
+@section('title', $article->titre . ' - Laravel Blog')
 
 @section('content')
 <div style="max-width: 800px; margin: 0 auto;">
@@ -17,6 +17,11 @@
         @endif
         @if($article->user)
             • Par <strong>{{ $article->user->name }}</strong>
+            @if($article->user->isAdmin())
+                <span class="badge" style="background: #e74c3c; font-size: 0.7rem;">Admin</span>
+            @elseif($article->user->isModerator())
+                <span class="badge" style="background: #f39c12; font-size: 0.7rem;">Mod</span>
+            @endif
         @endif
     </p>
 
@@ -35,7 +40,8 @@
     @if($article->image)
     <div class="text-center mb-3">
         <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->titre }}" 
-             style="max-width: 100%; max-height: 400px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+             style="max-width: 100%; max-height: 400px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"
+             onerror="this.style.display='none';">
     </div>
     @endif
     
@@ -107,11 +113,13 @@
                     <div class="d-flex align-center gap-1">
                         <span class="text-muted" style="font-size: 0.85rem;">{{ $commentaire->created_at->diffForHumans() }}</span>
                         @auth
+                            @if(Auth::user()->isStaff() || (Auth::user()->email === $commentaire->email))
                             <form action="{{ route('commentaires.destroy', $commentaire) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer ce commentaire ?')">🗑️</button>
                             </form>
+                            @endif
                         @endauth
                     </div>
                 </div>

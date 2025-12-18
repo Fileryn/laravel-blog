@@ -14,8 +14,8 @@ Route::get('/vue', function() {
 });
 
 // ========== ARTICLES ==========
-// Routes protégées AVANT les routes avec paramètres
-Route::middleware('auth')->group(function () {
+// Routes protégées avec email vérifié AVANT les routes avec paramètres
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
@@ -28,8 +28,8 @@ Route::get('/articles', [ArticleController::class, 'index'])->name('articles.ind
 Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
 // ========== CATÉGORIES ==========
-// Routes protégées AVANT les routes avec paramètres
-Route::middleware('auth')->group(function () {
+// Routes protégées avec email vérifié AVANT les routes avec paramètres
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/categories/create', [CategorieController::class, 'create'])->name('categories.create');
     Route::post('/categories', [CategorieController::class, 'store'])->name('categories.store');
     Route::get('/categories/{categorie}/edit', [CategorieController::class, 'edit'])->name('categories.edit');

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Laravel')</title>
+    <title>@yield('title', 'Laravel Blog')</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" type="image/svg+xml">
     <style>
         * {
             margin: 0;
@@ -353,6 +354,8 @@
                     👤 {{ Auth::user()->name }}
                     @if(Auth::user()->isAdmin())
                         <span class="badge" style="background: #e74c3c; margin-left: 5px;">Admin</span>
+                    @elseif(Auth::user()->isModerator())
+                        <span class="badge" style="background: #f39c12; margin-left: 5px;">Modérateur</span>
                     @endif
                 </span>
                 <a href="{{ route('dashboard') }}" class="btn btn-sm">Dashboard</a>

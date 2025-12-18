@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -57,10 +57,34 @@ class User extends Authenticatable
     }
 
     /**
+     * Vérifie si l'utilisateur est modérateur
+     */
+    public function isModerator(): bool
+    {
+        return $this->role === 'moderator';
+    }
+
+    /**
+     * Vérifie si l'utilisateur a un rôle staff (admin ou modérateur)
+     */
+    public function isStaff(): bool
+    {
+        return in_array($this->role, ['admin', 'moderator']);
+    }
+
+    /**
      * Les articles de l'utilisateur
      */
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
+    }
+
+    /**
+     * Les commentaires de l'utilisateur
+     */
+    public function commentaires(): HasMany
+    {
+        return $this->hasMany(Commentaire::class);
     }
 }

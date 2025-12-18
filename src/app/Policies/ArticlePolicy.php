@@ -16,23 +16,23 @@ class ArticlePolicy
     }
 
     /**
-     * Seuls les utilisateurs connectés peuvent créer
+     * Seuls les utilisateurs connectés et vérifiés peuvent créer
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->hasVerifiedEmail();
     }
 
     /**
-     * Admin peut tout modifier, sinon seulement l'auteur
+     * Admin et Moderator peuvent tout modifier, sinon seulement l'auteur
      */
     public function update(User $user, Article $article): bool
     {
-        return $user->isAdmin() || $user->id === $article->user_id;
+        return $user->isStaff() || $user->id === $article->user_id;
     }
 
     /**
-     * Admin peut tout supprimer, sinon seulement l'auteur
+     * Admin peut tout supprimer, Moderator et auteur peuvent supprimer leurs articles
      */
     public function delete(User $user, Article $article): bool
     {

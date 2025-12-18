@@ -39,9 +39,11 @@
         @foreach($articles as $article)
         <tr>
             <td>
-                @if($article->image)
+                @if($article->image && file_exists(public_path('storage/' . $article->image)))
                     <img src="{{ asset('storage/' . $article->image) }}" alt="" 
-                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span style="display: none; font-size: 1.5rem;">📷</span>
                 @else
                     <span class="text-muted" style="font-size: 1.5rem;">📷</span>
                 @endif
