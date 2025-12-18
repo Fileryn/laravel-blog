@@ -1,47 +1,67 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.app')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('title', 'Connexion - Laravel Blog')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+@section('content')
+<div style="max-width: 400px; margin: 50px auto;">
+    <div class="card">
+        <h2 class="text-center mb-3">🔑 Connexion</h2>
+        
+        @if(session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" 
+                       value="{{ old('email') }}" required autofocus autocomplete="username"
+                       placeholder="ton@email.com">
+                @error('email')
+                    <div class="form-error">{{ $message }}</div>
+                @enderror
+            </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <div class="form-group">
+                <label class="form-label" for="password">Mot de passe</label>
+                <input type="password" name="password" id="password" class="form-control" 
+                       required autocomplete="current-password"
+                       placeholder="••••••••">
+                @error('password')
+                    <div class="form-error">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+            <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" name="remember" style="width: 18px; height: 18px;">
+                    <span>Se souvenir de moi</span>
+                </label>
+            </div>
 
-        <div class="flex items-center justify-end mt-4">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    Se connecter
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+                <a href="{{ route('password.request') }}" style="color: rgba(255,255,255,0.7);">
+                    Mot de passe oublié ?
                 </a>
             @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+
+    <div class="card text-center mt-2">
+        <p class="mb-1">Pas encore de compte ?</p>
+        <a href="{{ route('register') }}" class="btn btn-primary">Créer un compte</a>
+    </div>
+</div>
+@endsection
