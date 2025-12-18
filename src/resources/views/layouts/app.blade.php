@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@yield('description', 'Laravel Blog - Un blog moderne créé avec Laravel 12 et PHP 8. Découvrez des articles sur la programmation, le développement web et plus encore.')">
+    <meta name="author" content="Fileryn">
+    <meta name="keywords" content="Laravel, Blog, PHP, Programmation, Développement Web">
+    <meta property="og:title" content="@yield('title', 'Laravel Blog')">
+    <meta property="og:description" content="@yield('description', 'Un blog moderne créé avec Laravel')">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
     <title>@yield('title', 'Laravel Blog')</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" type="image/svg+xml">
     <style>
@@ -345,7 +352,7 @@
             <a href="{{ url('/') }}" class="navbar-link {{ request()->is('/') ? 'active' : '' }}">🏠 Accueil</a>
             <a href="{{ route('articles.index') }}" class="navbar-link {{ request()->is('articles*') ? 'active' : '' }}">📝 Articles</a>
             <a href="{{ route('categories.index') }}" class="navbar-link {{ request()->is('categories*') ? 'active' : '' }}">🏷️ Catégories</a>
-            <a href="{{ url('/vue') }}" class="navbar-link {{ request()->is('vue') ? 'active' : '' }}">🎨 Ma Vue</a>
+            <a href="{{ url('/vue') }}" class="navbar-link {{ request()->is('vue') ? 'active' : '' }}">ℹ️ À propos</a>
         </div>
 
         <div class="navbar-user">
@@ -389,7 +396,8 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>Fait avec ❤️ avec Laravel {{ app()->version() }} • PHP {{ PHP_VERSION }}</p>
+        <p>🚀 Laravel Blog • Créé par <strong>Fileryn</strong> • {{ date('Y') }}</p>
+        <p style="font-size: 0.8rem; margin-top: 5px;">Laravel {{ app()->version() }} • PHP {{ PHP_VERSION }}</p>
     </footer>
 </body>
 </html>
